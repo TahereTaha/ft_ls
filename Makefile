@@ -38,6 +38,7 @@ CCFLAGS		+=	$(CDEBUG)
 NAME	=	ft_ls
 
 OBJ	:=	main.o	\
+		test.o	\
 
 OBJ		:=	$(addprefix $(BIN_DIR)/, $(OBJ))
 
