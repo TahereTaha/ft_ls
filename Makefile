@@ -1,0 +1,79 @@
+
+BIN_DIR		=	bin
+SRC_DIR		=	src
+INC_DIR		=	inc
+SUBMODULE_DIR	=	submodules
+
+RM	=	rm
+AR	=	ar
+AS	=	nasm
+CC	=	cc
+CXX	=	c++
+LD	=	ld
+
+RMFLAGS		:=	-rf
+ARFLAGS		:=	rcs
+ASFLAGS		:=	-felf64
+CCFLAGS		:=	-Wall -Wextra -Werror -MMD
+CXXFLAGS	:=	-Wall -Wextra -Werror -MMD
+LDFLAGS		:=	
+
+LIBFT_DIR	=	$(SUBMODULE_DIR)/libft
+LIBFT		=	$(LIBFT_DIR)/libft.a
+
+SUBMODULE	=	$(LIBFT_DIR)
+LIBS		=	$(LIBFT)
+
+CINC		:=	-I$(BIN_DIR)
+CINC		+=	-I$(INC_DIR)
+CINC		+=	-I$(SRC_DIR)
+CINC		+=	-I$(LIBFT_DIR)/inc
+CXXFLAGS	+=	$(CINC)
+CCFLAGS		+=	$(CINC)
+
+CDEBUG		:=	-g
+CXXFLAGS	+=	$(CDEBUG)
+CCFLAGS		+=	$(CDEBUG)
+
+NAME	=	ft_ls
+
+OBJ	:=	main.o	\
+
+OBJ		:=	$(addprefix $(BIN_DIR)/, $(OBJ))
+
+DEP		:=	$(OBJ:.o=.d)
+
+
+VPATH	+=	$(SRC_DIR)
+
+all:		$(NAME) Makefile
+
+$(NAME):	$(LIBS) $(OBJ) Makefile
+	$(CC) $(CCFLAGS) $(OBJ) $(LIBS) -o $(NAME)
+
+$(BIN_DIR)/%.o:	%.c $(BIN_DIR) Makefile
+	$(CC) $(CCFLAGS) -c $< -o $@
+
+$(BIN_DIR):
+	mkdir -p $@
+
+$(LIBFT):
+	@if [ ! -f $(LIBFT_DIR)/Makefile ]; then \
+		git submodule init ; \
+		git submodule update ; \
+	fi
+	make -C $(LIBFT_DIR)
+
+clean:
+	$(RM) $(RMFLAGS) $(BIN_DIR)
+	make -C $(LIBFT_DIR) clean
+
+fclean: clean
+	$(RM) $(RMFLAGS) $(NAME)
+	make -C $(LIBFT_DIR) fclean
+
+re: fclean all
+
+-include $(DEP)
+
+.PHONY:	all clean fclean re
