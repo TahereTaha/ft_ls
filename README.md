@@ -23,7 +23,7 @@ this project consists of a minimal implementation of the ls command, with a redu
 		- [x]	hard link count.
 		- [x]	user.
 		- [x]	group.
-		- [ ]	size.
+		- [x]	size.
 		- [ ]	time.
 		- [x]	name.
 		- [ ]	link.
