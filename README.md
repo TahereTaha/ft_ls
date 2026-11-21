@@ -27,10 +27,12 @@ this project consists of a minimal implementation of the ls command, with a redu
 		- [x]	time.
 		- [x]	name.
 		- [x]	link.
-- [ ]	parse all option arrguments.
-- [ ]	handle correctly all the files and folders on the arguments.
+- [x]	parse the args.
+- [ ]	print correctly all the paths on the terminal.
 - [ ]	handle correctly the -a.
 - [ ]	handle correctly the -r and -t.
 - [ ]	handle correctly the -l.
 - [ ]	handle correctly the -R.
 - [ ]	find errors and fix them.
+- [ ]	write a nice documentation.
+

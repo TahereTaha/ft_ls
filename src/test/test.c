@@ -10,8 +10,6 @@
 #include <grp.h>
 #include <time.h>
 
-#define DEBUG 0
-
 enum file_type {
 	FILE_TYPE_NONE,
 	FILE_TYPE_REG,

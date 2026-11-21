@@ -37,26 +37,30 @@ CCFLAGS		+=	$(CDEBUG)
 
 NAME	=	ft_ls
 
-OBJ	:=	main.o	\
-		test.o	\
+OBJ	:=	main.o		\
+				\
+		parse_args.o	\
+				\
+		test.o		\
 
 OBJ		:=	$(addprefix $(BIN_DIR)/, $(OBJ))
 
 DEP		:=	$(OBJ:.o=.d)
 
-
 VPATH	+=	$(SRC_DIR)
+VPATH	+=	:$(SRC_DIR)/test
+VPATH	+=	:$(SRC_DIR)/utils
 
-all:		$(NAME) Makefile
+all:		$(BIN_DIR) $(NAME) Makefile
 
 $(NAME):	$(LIBS) $(OBJ) Makefile
 	$(CC) $(CCFLAGS) $(OBJ) $(LIBS) -o $(NAME)
 
-$(BIN_DIR)/%.o:	%.c $(BIN_DIR) Makefile
+$(BIN_DIR)/%.o:	%.c Makefile
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 $(BIN_DIR):
-	mkdir -p $@
+	@mkdir -p $@
 
 $(LIBFT):
 	@if [ ! -f $(LIBFT_DIR)/Makefile ]; then \
