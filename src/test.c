@@ -8,6 +8,7 @@
 #include "libft_ext.h"
 #include <pwd.h>
 #include <grp.h>
+#include <time.h>
 
 #define DEBUG 0
 
@@ -24,6 +25,8 @@ enum file_type {
 
 enum	file_type	get_file_type(unsigned int val)
 {
+	if (S_ISLNK(val))
+		return (FILE_TYPE_SYMLINK);
 	if (S_ISREG(val))
 		return (FILE_TYPE_REG);
 	if (S_ISDIR(val))
@@ -34,8 +37,6 @@ enum	file_type	get_file_type(unsigned int val)
 		return (FILE_TYPE_BLKDEV);
 	if (S_ISFIFO(val))
 		return (FILE_TYPE_FIFO);
-	if (S_ISLNK(val))
-		return (FILE_TYPE_SYMLINK);
 	if (S_ISSOCK(val))
 		return (FILE_TYPE_SOCK);
 	return (FILE_TYPE_NONE);
@@ -134,9 +135,13 @@ void	test(char *path)
 				ent->d_reclen, 
 				ent->d_type,
 				ent->d_name);
-		stat(file_path, &statbuff);
+		lstat(file_path, &statbuff);
 		if (DEBUG)
-			printf("mode: %10x, nlink: %4lu, user %10x, group %10x, size: %10ld\n",
+			printf("mode: %10x, "
+				"nlink: %4lu, "
+				"user %10x, "
+				"group %10x, "
+				"size: %10ld\n",
 				statbuff.st_mode,
 				statbuff.st_nlink,
 				statbuff.st_uid,
@@ -148,21 +153,32 @@ void	test(char *path)
 		char	*mode_str = get_mode_str(mode);
 		struct passwd	*user_info = getpwuid(statbuff.st_uid);
 		struct group	*group_info = getgrgid(statbuff.st_gid);
+		char	*time_str = ctime(&statbuff.st_mtim.tv_sec);
+		time_str[ft_strlen(time_str) - 1] = '\0';
+		char	link_name_buff[NAME_MAX + 1];
+		char	*link_name = NULL;
+		if (type == FILE_TYPE_SYMLINK)
+		{
+			link_name = link_name_buff;
+			link_name_buff[readlink(file_path, link_name_buff, NAME_MAX + 1)] = '\0';
+		}
 		printf("type: %c, "
 			"permisions: %s, "
 			"hl count: %3lu, "
 			"user: %15s, "
 			"group: %15s, "
 			"size: %10lu, "
-			"time: x, "
-			"name: %s\n", 
+			"time: %s, "
+			"name: %s -> %s\n", 
 			type_char,
 			mode_str,
 			statbuff.st_nlink,
 			user_info->pw_name,
 			group_info->gr_name,
 			statbuff.st_size,
-			ent->d_name);
+			time_str,
+			ent->d_name,
+			link_name);
 		ent = readdir(dir);
 	}
 }

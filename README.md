@@ -15,19 +15,20 @@ this project consists of a minimal implementation of the ls command, with a redu
 - [x]	add my libft as a submodule.
 - [x]	add a gitignore file.
 - [x]	build a makefile.
-- [ ]	get aquainted with the function needed to get all the info from the files and folders.
+- [x]	get aquainted with the function needed to get all the info from the files and folders.
 	- [x]	list all the contents of a folder.
-	- [ ]	get important info.
+	- [x]	get important info.
 		- [x]	type.
 		- [x]	permisions.
 		- [x]	hard link count.
 		- [x]	user.
 		- [x]	group.
 		- [x]	size.
-		- [ ]	time.
+		- [x]	time.
 		- [x]	name.
-		- [ ]	link.
-- [ ]	parse all option arrguments plus files.
+		- [x]	link.
+- [ ]	parse all option arrguments.
+- [ ]	handle correctly all the files and folders on the arguments.
 - [ ]	handle correctly the -a.
 - [ ]	handle correctly the -r and -t.
 - [ ]	handle correctly the -l.
