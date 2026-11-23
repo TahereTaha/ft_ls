@@ -31,9 +31,6 @@ this project consists of a minimal implementation of the ls command, with a redu
 - [ ]	print correctly all the paths on the terminal.
 	- [x]	print the info expecting no errors.
 	- [ ]	add correct notification of errors.
-- [ ]	important bug. add a version of printf that prints to the stderr for error mesages.
-- [ ]	important bug. make the name ordering be like strcoll.
-- [ ]	add some kind of tests.
 - [ ]	handle correctly the -a.
 - [ ]	handle correctly the -r and -t.
 - [ ]	handle correctly the -l.
@@ -41,3 +38,6 @@ this project consists of a minimal implementation of the ls command, with a redu
 - [ ]	find errors and fix them.
 - [ ]	write a nice documentation.
 
+bugs:
+- [ ]	important bug. add a version of printf that prints to the stderr for error mesages.
+- [ ]	may be important bug. make the name ordering be like strcoll.
