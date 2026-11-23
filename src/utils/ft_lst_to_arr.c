@@ -17,7 +17,7 @@ void	**ft_lst_to_arr(t_list *lst)
 	void	**vec = malloc(sizeof(void *) * (list_size + 1));
 	if (!vec)
 	{
-		ft_printf("ls: %s\n", strerror(errno));
+		ft_printfe("ls: %s\n", strerror(errno));
 		exit(1);
 	}
 	vec[list_size] = NULL;

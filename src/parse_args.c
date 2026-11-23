@@ -110,7 +110,8 @@ void	parse_args(int ac, char **av, struct ls_args *ctx)
 		struct stat	statbuf;
 		if (stat(ctx->pathv[0], &statbuf))
 		{
-			ft_printf("ls: %s\n", strerror(errno));
+			ft_printfe("ls: cannot access '%s': "
+				"No such file or directory\n", ctx->pathv[0]);
 			exit(1);
 		}
 		if (S_ISDIR(statbuf.st_mode))

@@ -25,7 +25,7 @@ static char	**get_dir_file_names(char *path, unsigned int options_bitf)
 	DIR	*dir = opendir(path);
 	if (!dir)
 	{
-		ft_printf("ls: %s\n", strerror(errno));
+		ft_printfe("ls: %s\n", strerror(errno));
 		exit(1);
 	}
 	t_list	*name_list = NULL;
@@ -38,13 +38,13 @@ static char	**get_dir_file_names(char *path, unsigned int options_bitf)
 			char	*name_cpy = ft_strdup(dirent->d_name);
 			if (!name_cpy)
 			{
-				ft_printf("ls: %s\n", strerror(errno));
+				ft_printfe("ls: %s\n", strerror(errno));
 				exit(1);
 			}
 			t_list	*node= ft_lstnew(name_cpy);
 			if (!node)
 			{
-				ft_printf("ls: %s\n", strerror(errno));
+				ft_printfe("ls: %s\n", strerror(errno));
 				exit(1);
 			}
 			ft_lstadd_front(&name_list, node);
@@ -56,7 +56,7 @@ static char	**get_dir_file_names(char *path, unsigned int options_bitf)
 	char	**ret = (char **)ft_lst_to_arr(name_list);
 	if (!ret)
 	{
-		ft_printf("ls: %s\n", strerror(errno));
+		ft_printfe("ls: %s\n", strerror(errno));
 		exit(1);
 	}
 	return (ret);

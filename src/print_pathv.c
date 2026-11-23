@@ -14,19 +14,28 @@ fill_file_buff(struct file_info *file_buff, struct file_info **filev, struct ls_
 {
 	struct stat	statbuf;
 
-	int		i = 0;
+	int	i = 0;
+	int	y = 0;
 	while (i < ctx->pathc)
 	{
-		filev[i] = &file_buff[i];
-		file_buff[i].name = ctx->pathv[i];
-		if (stat(file_buff[i].name, &statbuf) == -1)
+		filev[y] = &file_buff[y];
+		file_buff[y].name = ctx->pathv[i];
+		if (stat(file_buff[y].name, &statbuf) == -1)
 		{
-			ft_printf("ls: %s\n", strerror(errno));
-			exit(1);
+			if (errno == ENOENT)
+				ft_printfe("ls: cannot access '%s': "
+					"No such file or directory\n", file_buff[y].name);
+			else
+				ft_printfe("ls: %s\n", strerror(errno));
 		}
-		file_buff[i].mode = statbuf.st_mode;
+		else
+		{
+			file_buff[y].mode = statbuf.st_mode;
+			y++;
+		}
 		i++;
 	}
+	ctx->pathc = y;
 }
 
 //	return 0 the first is smaller or equal.
@@ -96,13 +105,13 @@ void	print_pathv(struct ls_args *ctx)
 	file_buff = malloc(sizeof(struct file_info) * (ctx->pathc + 1));
 	if (!file_buff)
 	{
-		ft_printf("ls: %s\n", strerror(errno));
+		ft_printfe("ls: %s\n", strerror(errno));
 		exit(1);
 	}
 	filev = malloc(sizeof(struct file_info *) * (ctx->pathc + 1));
 	if (!file_buff)
 	{
-		ft_printf("ls: %s\n", strerror(errno));
+		ft_printfe("ls: %s\n", strerror(errno));
 		exit(1);
 	}
 	
