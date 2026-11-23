@@ -2,8 +2,13 @@
 #include "ft_ls.h"
 
 #include <stddef.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
 
 #include "libft_ext.h"
+
 
 static void	parse_arg_options(char *options, struct ls_args *ctx)
 {
@@ -29,39 +34,7 @@ static void	parse_arg_options(char *options, struct ls_args *ctx)
 	}
 }
 
-void	parse_args(int ac, char **av, struct ls_args *ctx)
-{
-	int	pathc = 0;
-
-	ctx->option_bitf = 0;
-	ctx->pathv = av;
-
-	int	i = 1;
-	while (i < ac)
-	{
-		if (av[i][0] == '-' && ft_strlen(av[i]) > 1)
-			parse_arg_options(av[i], ctx);
-		else
-		{
-			ctx->pathv[pathc] = av[i];
-			pathc++;
-		}
-		i++;
-	}
-
-
-	if (pathc == 0)
-	{
-		ft_strlcpy(ctx->pathv[0], ".", 2);
-		ctx->pathv[1] = NULL;
-	}
-	else
-		ctx->pathv[pathc] = NULL;
-
-	debug_print_ls_args(ctx);
-}
-
-void	debug_print_ls_args(struct ls_args *ctx)
+static void	debug_print_ls_args(struct ls_args *ctx)
 {
 	if (!DEBUG)
 		return ;
@@ -100,3 +73,50 @@ void	debug_print_ls_args(struct ls_args *ctx)
 		i++;
 	}
 }
+
+void	parse_args(int ac, char **av, struct ls_args *ctx)
+{
+	int	pathc = 0;
+
+	ctx->option_bitf = 0;
+	ctx->pathv = av;
+
+	int	i = 1;
+	while (i < ac)
+	{
+		if (av[i][0] == '-' && ft_strlen(av[i]) > 1)
+			parse_arg_options(av[i], ctx);
+		else
+		{
+			ctx->pathv[pathc] = av[i];
+			pathc++;
+		}
+		i++;
+	}
+
+
+	if (pathc == 0)
+	{
+		ft_strlcpy(ctx->pathv[0], ".", 2);
+		ctx->pathv[1] = NULL;
+		pathc++;
+	}
+	else
+		ctx->pathv[pathc] = NULL;
+	ctx->pathc = pathc;
+
+	if (ctx->pathc == 1)
+	{
+		struct stat	statbuf;
+		if (stat(ctx->pathv[0], &statbuf))
+		{
+			ft_printf("ls: %s\n", strerror(errno));
+			exit(1);
+		}
+		if (S_ISDIR(statbuf.st_mode))
+			ctx->option_bitf |= LS_ARGS_ONE_DIR;
+	}
+
+	debug_print_ls_args(ctx);
+}
+

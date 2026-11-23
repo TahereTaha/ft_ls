@@ -10,17 +10,6 @@
 #include <grp.h>
 #include <time.h>
 
-enum file_type {
-	FILE_TYPE_NONE,
-	FILE_TYPE_REG,
-	FILE_TYPE_DIR,
-	FILE_TYPE_CHRDEV,
-	FILE_TYPE_BLKDEV,
-	FILE_TYPE_FIFO,
-	FILE_TYPE_SYMLINK,
-	FILE_TYPE_SOCK,
-};
-
 enum	file_type	get_file_type(unsigned int val)
 {
 	if (S_ISLNK(val))

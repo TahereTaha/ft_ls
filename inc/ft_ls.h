@@ -2,19 +2,25 @@
 # define FT_LS_H
 
 #include <aio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 //
 //	flags.
 //
 
-# define DEBUG 1
+
+# define DEBUG 0
+
 
 //
 //	ft_ls.
 //
 
+
 struct ls_args {
 	unsigned int	option_bitf;
+	int		pathc;
 	char		**pathv;
 };
 
@@ -24,18 +30,24 @@ struct ls_args {
 # define LS_ARGS_OPT_ALL	1 << 2
 # define LS_ARGS_OPT_ORD_REV	1 << 3
 # define LS_ARGS_OPT_ORD_TM	1 << 4
+# define LS_ARGS_ONE_DIR	1 << 5
 
 //	in case of error this doesn't return and prints the error msg and exits.
 void	parse_args(int ac, char **av, struct ls_args *ctx);
 
-void	debug_print_ls_args(struct ls_args *ctx);
+void	print_pathv(struct ls_args *ctx);
+
+struct	file_info {
+	mode_t	mode;
+	char	*name;
+};
+
+
+void	print_file(struct file_info *file, unsigned int options);
+
 
 //
 //	utils. to be moved to the libft eventualy.
-//
-
-//
-//	debug functions.
 //
 
 //

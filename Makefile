@@ -41,14 +41,19 @@ OBJ	:=	main.o		\
 				\
 		parse_args.o	\
 				\
-		test.o		\
+		print_pathv.o	\
+				\
+		print_file.o	\
+				\
+		ft_lstsort.o	\
+		ft_lst_to_arr.o	\
+		free_arr.o	\
 
 OBJ		:=	$(addprefix $(BIN_DIR)/, $(OBJ))
 
 DEP		:=	$(OBJ:.o=.d)
 
 VPATH	+=	$(SRC_DIR)
-VPATH	+=	:$(SRC_DIR)/test
 VPATH	+=	:$(SRC_DIR)/utils
 
 all:		$(BIN_DIR) $(NAME) Makefile
