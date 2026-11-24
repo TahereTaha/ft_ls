@@ -81,12 +81,18 @@ clean:
 	$(RM) $(RMFLAGS) $(BIN_DIR)
 	make -C $(LIBFT_DIR) clean
 
-fclean: clean
+fclean: clean tclean
 	$(RM) $(RMFLAGS) $(NAME)
 	make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
+test:
+	@bash test.sh
+
+tclean:
+	$(RM) $(RMFLAGS) *.test.out
+
 -include $(DEP)
 
-.PHONY:	all clean fclean re
+.PHONY:	all clean fclean re test tclean
