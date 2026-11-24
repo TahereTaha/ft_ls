@@ -31,6 +31,7 @@ fill_file_buff(struct file_info *file_buff, struct file_info **filev, struct ls_
 		else
 		{
 			file_buff[y].mode = statbuf.st_mode;
+			file_buff[y].last_mod = statbuf.st_mtim;
 			y++;
 		}
 		i++;
@@ -40,18 +41,30 @@ fill_file_buff(struct file_info *file_buff, struct file_info **filev, struct ls_
 
 //	return 0 the first is smaller or equal.
 //	return 1 if the first is biger.
-static int	file_cmp(struct file_info *file1, struct file_info *file2)
+static int
+file_cmp(struct file_info *file1, struct file_info *file2, unsigned int option_bitf)
 {
 	if (S_ISDIR(file1->mode) && !S_ISDIR(file2->mode))
 		return (1);
 	if (!S_ISDIR(file1->mode) && S_ISDIR(file2->mode))
 		return (0);
-	if (ft_strncmp(file1->name, file2->name, -1) > 0)
-		return (1);
-	return (0);
+	int	dif = 0;
+
+	if (option_bitf & LS_ARGS_OPT_ORD_TM)
+	{
+		if (file1->last_mod.tv_sec == file2->last_mod.tv_sec)
+			dif = file1->last_mod.tv_nsec - file2->last_mod.tv_nsec;
+		else
+			dif = file1->last_mod.tv_sec - file2->last_mod.tv_sec;
+	}
+	if (dif == 0)
+		dif = ft_strncmp(file1->name, file2->name, -1);
+	if (option_bitf & LS_ARGS_OPT_ORD_REV)
+		return (dif < 0);
+	return (dif > 0);
 }
 
-static void	order_filev(int filec, struct file_info **filev)
+static void	sort_filev(int filec, struct file_info **filev, unsigned int option_bitf)
 {
 	int	i = 0;
 
@@ -61,7 +74,7 @@ static void	order_filev(int filec, struct file_info **filev)
 		int	current = i + 1;
 		while (current < filec)
 		{
-			if (file_cmp(filev[smallest], filev[current]))
+			if (file_cmp(filev[smallest], filev[current], option_bitf))
 				smallest = current;
 			current++;
 		}
@@ -91,7 +104,10 @@ static void	print_filev(struct file_info **filev, unsigned int option_bitf)
 	int	i = 0;
 	while (filev[i])
 	{
-		print_file(filev[i], option_bitf);
+		if (S_ISDIR(filev[i]->mode))
+			print_dir(filev[i], option_bitf);
+		else
+			print_file(filev[i], option_bitf);
 		i++;
 	}
 }
@@ -117,8 +133,10 @@ void	print_pathv(struct ls_args *ctx)
 	
 	fill_file_buff(file_buff, filev, ctx);
 	
-	order_filev(ctx->pathc, filev);
+	sort_filev(ctx->pathc, filev, ctx->option_bitf);
 	
 	debug_print_filev(filev);
 	print_filev(filev, ctx->option_bitf);
+	free(file_buff);
+	free(filev);
 }

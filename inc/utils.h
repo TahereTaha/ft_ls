@@ -14,5 +14,9 @@ void	**ft_lst_to_arr(t_list *lst);
 
 void	free_arr(void **arr, void (*f_free)(void *));
 
+int	arr_len(void **arr);
+
+void	**arr_map(void **arr, void *(*f)(void *));
+
 #endif
 

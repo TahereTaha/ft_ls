@@ -28,16 +28,18 @@ this project consists of a minimal implementation of the ls command, with a redu
 		- [x]	name.
 		- [x]	link.
 - [x]	parse the args.
-- [ ]	print correctly all the paths on the terminal.
+- [x]	print correctly all the paths on the terminal.
 	- [x]	print the info expecting no errors.
-	- [ ]	add correct notification of errors.
-- [ ]	handle correctly the -a.
-- [ ]	handle correctly the -r and -t.
+	- [x]	add correct notification of errors.
+- [x]	handle correctly the -a.
+- [x]	separate the print file and print folder.
+- [x]	handle correctly the -r and -t.
+- [ ]	add some kind of testing.
 - [ ]	handle correctly the -l.
 - [ ]	handle correctly the -R.
 - [ ]	find errors and fix them.
 - [ ]	write a nice documentation.
 
 bugs:
-- [ ]	important bug. add a version of printf that prints to the stderr for error mesages.
-- [ ]	may be important bug. make the name ordering be like strcoll.
+- [x]	important bug. add a version of printf that prints to the stderr for error mesages.
+- [ ]	important bug. ft_ls print a extra new line at the start with `./ft_ls dir1 dir2`

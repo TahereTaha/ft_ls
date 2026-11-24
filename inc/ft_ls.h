@@ -38,13 +38,15 @@ void	parse_args(int ac, char **av, struct ls_args *ctx);
 void	print_pathv(struct ls_args *ctx);
 
 struct	file_info {
-	mode_t	mode;
-	char	*name;
+	mode_t		mode;
+	struct timespec	last_mod;
+	char		*name;
 };
 
 
 void	print_file(struct file_info *file, unsigned int options);
 
+void	print_dir(struct file_info *file, unsigned int options);
 
 //
 //	utils. to be moved to the libft eventualy.

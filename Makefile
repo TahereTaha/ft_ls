@@ -44,10 +44,13 @@ OBJ	:=	main.o		\
 		print_pathv.o	\
 				\
 		print_file.o	\
+		print_dir.o	\
 				\
 		ft_lstsort.o	\
 		ft_lst_to_arr.o	\
 		free_arr.o	\
+		arr_len.o	\
+		arr_map.o	\
 
 OBJ		:=	$(addprefix $(BIN_DIR)/, $(OBJ))
 
