@@ -6,3 +6,4 @@
 **/*.run
 **/*.test*
 ft_ls
+test_diff

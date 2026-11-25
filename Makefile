@@ -91,7 +91,7 @@ test:
 	@bash test.sh
 
 tclean:
-	$(RM) $(RMFLAGS) *.test.out
+	$(RM) $(RMFLAGS) test_diff
 
 -include $(DEP)
 

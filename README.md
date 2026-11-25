@@ -34,7 +34,7 @@ this project consists of a minimal implementation of the ls command, with a redu
 - [x]	handle correctly the -a.
 - [x]	separate the print file and print folder.
 - [x]	handle correctly the -r and -t.
-- [ ]	add some kind of testing.
+- [x]	add some kind of testing.
 - [ ]	handle correctly the -l.
 - [ ]	handle correctly the -R.
 - [ ]	find errors and fix them.
@@ -43,3 +43,4 @@ this project consists of a minimal implementation of the ls command, with a redu
 bugs:
 - [x]	important bug. add a version of printf that prints to the stderr for error mesages.
 - [ ]	important bug. ft_ls print a extra new line at the start with `./ft_ls dir1 dir2`
+- [x]	important bug. fix all the failed testcases.

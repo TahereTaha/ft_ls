@@ -53,9 +53,9 @@ file_cmp(struct file_info *file1, struct file_info *file2, unsigned int option_b
 	if (option_bitf & LS_ARGS_OPT_ORD_TM)
 	{
 		if (file1->last_mod.tv_sec == file2->last_mod.tv_sec)
-			dif = file1->last_mod.tv_nsec - file2->last_mod.tv_nsec;
+			dif = file2->last_mod.tv_nsec - file1->last_mod.tv_nsec;
 		else
-			dif = file1->last_mod.tv_sec - file2->last_mod.tv_sec;
+			dif = file2->last_mod.tv_sec - file1->last_mod.tv_sec;
 	}
 	if (dif == 0)
 		dif = ft_strncmp(file1->name, file2->name, -1);
