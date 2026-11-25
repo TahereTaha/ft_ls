@@ -52,19 +52,19 @@ function test_ls ()
 }
 
 test_ls 1
-test_ls 2 -r -rrrrr -t
-test_ls 3 src
-test_ls 4 .
-test_ls 5 Makefile src test.sh
-test_ls 6 -t
-test_ls 7 -tr -r
-test_ls 8 Makefile src test.sh -rt
-test_ls 9 Makefile src test.sh -tr
-test_ls 10 Makefile src test.sh -t
-test_ls 11 src -r
-test_ls 12 src inc submodules
-test_ls 13 -l
-test_ls 14 -l /bin
-test_ls 15 src inc -l submodules
-test_ls 16 src -rR
+test_ls 2	-r -rrrrr -t
+test_ls 3	src
+test_ls 4	.
+test_ls 5	Makefile src test.sh
+test_ls 6	-t
+test_ls 7	-tr -r
+test_ls 8	Makefile src test.sh -rt
+test_ls 9	Makefile src test.sh -tr
+test_ls 10	Makefile src test.sh -t
+test_ls 11	src -r
+test_ls 12	src inc submodules
+test_ls 13	-l
+test_ls 14	-l /bin
+test_ls 15	src inc -l submodules
+test_ls 16	src -rR
 

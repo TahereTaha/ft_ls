@@ -105,6 +105,7 @@ fill_file_buff(struct file_info *file_buff, \
 		}
 		i++;
 	}
+	filev[y] = NULL;
 }
 
 
@@ -157,7 +158,7 @@ static char	**add_path(char *path, char **files)
 
 static void	sort_filev(struct file_info **filev, unsigned int option_bitf)
 {
-	if (!filev[0])
+	if (!filev[0] || !filev[1])
 		return ;
 	int	i = 0;
 	while (filev[i + 1])

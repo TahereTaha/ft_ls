@@ -36,6 +36,7 @@ fill_file_buff(struct file_info *file_buff, struct file_info **filev, struct ls_
 		}
 		i++;
 	}
+	filev[y] = NULL;
 	ctx->pathc = y;
 }
 

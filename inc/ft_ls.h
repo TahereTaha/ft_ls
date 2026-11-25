@@ -39,6 +39,10 @@ void	print_pathv(struct ls_args *ctx);
 
 struct	file_info {
 	mode_t		mode;
+	nlink_t		nlink;
+	uid_t		uid;
+	gid_t		gid;
+	off_t		size;
 	struct timespec	last_mod;
 	char		*name;
 };

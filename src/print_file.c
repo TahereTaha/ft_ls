@@ -12,9 +12,13 @@
 #include "libft_ext.h"
 #include "utils.h"
 
-
 void	print_file(struct file_info *file, unsigned int options_bitf)
 {
 	(void)options_bitf;
-	ft_printf("%s\n", file->name);
+	if (!(options_bitf & LS_ARGS_OPT_ALL))
+	{
+		ft_printf("%s\n", file->name);
+		return ;
+	}
+	
 }

@@ -31,7 +31,7 @@ CINC		+=	-I$(LIBFT_DIR)/inc
 CXXFLAGS	+=	$(CINC)
 CCFLAGS		+=	$(CINC)
 
-CDEBUG		:=	-g
+CDEBUG		:=	-g -fsanitize=address -fsanitize=leak
 CXXFLAGS	+=	$(CDEBUG)
 CCFLAGS		+=	$(CDEBUG)
 
