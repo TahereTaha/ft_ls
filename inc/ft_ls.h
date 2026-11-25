@@ -40,13 +40,18 @@ void	print_pathv(struct ls_args *ctx);
 struct	file_info {
 	mode_t		mode;
 	nlink_t		nlink;
+	size_t		nlink_num_size;
 	uid_t		uid;
+	size_t		user_name_size;
 	gid_t		gid;
+	size_t		group_name_size;
 	off_t		size;
+	size_t		size_num_size;
 	struct timespec	last_mod;
 	char		*name;
 };
 
+void	calc_slot_size(struct file_info **filev);
 
 void	print_file(struct file_info *file, unsigned int options);
 

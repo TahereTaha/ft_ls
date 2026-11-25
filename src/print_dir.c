@@ -100,6 +100,10 @@ fill_file_buff(struct file_info *file_buff, \
 		else
 		{
 			file_buff[y].mode = statbuf.st_mode;
+			file_buff[y].nlink = statbuf.st_nlink;
+			file_buff[y].uid = statbuf.st_uid;
+			file_buff[y].gid = statbuf.st_gid;
+			file_buff[y].size = statbuf.st_size;
 			file_buff[y].last_mod = statbuf.st_mtim;
 			y++;
 		}
@@ -204,6 +208,9 @@ void	print_dir(struct file_info *file, unsigned int option_bitf)
 
 	fill_file_buff(file_buff, filev, names, paths);
 	sort_filev(filev, option_bitf);
+	
+	if (option_bitf & LS_ARGS_OPT_FMT_LONG)
+		calc_slot_size(filev);
 
 	print_filev(filev, option_bitf);
 

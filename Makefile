@@ -37,20 +37,22 @@ CCFLAGS		+=	$(CDEBUG)
 
 NAME	=	ft_ls
 
-OBJ	:=	main.o		\
-				\
-		parse_args.o	\
-				\
-		print_pathv.o	\
-				\
-		print_file.o	\
-		print_dir.o	\
-				\
-		ft_lstsort.o	\
-		ft_lst_to_arr.o	\
-		free_arr.o	\
-		arr_len.o	\
-		arr_map.o	\
+OBJ	:=	main.o			\
+					\
+		parse_args.o		\
+					\
+		print_pathv.o		\
+					\
+		print_file.o		\
+		print_dir.o		\
+					\
+		calc_slot_size.o	\
+					\
+		ft_lstsort.o		\
+		ft_lst_to_arr.o		\
+		free_arr.o		\
+		arr_len.o		\
+		arr_map.o		\
 
 OBJ		:=	$(addprefix $(BIN_DIR)/, $(OBJ))
 

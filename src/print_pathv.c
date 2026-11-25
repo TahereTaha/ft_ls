@@ -31,6 +31,10 @@ fill_file_buff(struct file_info *file_buff, struct file_info **filev, struct ls_
 		else
 		{
 			file_buff[y].mode = statbuf.st_mode;
+			file_buff[y].nlink = statbuf.st_nlink;
+			file_buff[y].uid = statbuf.st_uid;
+			file_buff[y].gid = statbuf.st_gid;
+			file_buff[y].size = statbuf.st_size;
 			file_buff[y].last_mod = statbuf.st_mtim;
 			y++;
 		}
@@ -137,6 +141,9 @@ void	print_pathv(struct ls_args *ctx)
 	fill_file_buff(file_buff, filev, ctx);
 	
 	sort_filev(ctx->pathc, filev, ctx->option_bitf);
+
+	if (ctx->option_bitf & LS_ARGS_OPT_FMT_LONG)
+		calc_slot_size(filev);
 	
 	debug_print_filev(filev);
 	print_filev(filev, ctx->option_bitf);
