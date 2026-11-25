@@ -42,5 +42,5 @@ this project consists of a minimal implementation of the ls command, with a redu
 
 bugs:
 - [x]	important bug. add a version of printf that prints to the stderr for error mesages.
-- [ ]	important bug. ft_ls print a extra new line at the start with `./ft_ls dir1 dir2`
+- [x]	important bug. ft_ls print a extra new line at the start with `./ft_ls dir1 dir2`
 - [x]	important bug. fix all the failed testcases.

@@ -53,5 +53,6 @@ test_ls Makefile src test.sh -rt
 test_ls Makefile src test.sh -tr
 test_ls Makefile src test.sh -t
 test_ls src -r
+test_ls src inc submodules
 test_ls src -rR
 

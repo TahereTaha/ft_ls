@@ -181,7 +181,7 @@ static void	sort_filev(struct file_info **filev, unsigned int option_bitf)
 void	print_dir(struct file_info *file, unsigned int option_bitf)
 {
 	if (!(option_bitf & LS_ARGS_ONE_DIR))
-		ft_printf("\n%s:\n", file->name);
+		ft_printf("%s:\n", file->name);
 	char	**names = get_dir_file_names(file->name, option_bitf);
 	char	**paths = add_path(file->name, names);
 

@@ -108,6 +108,8 @@ static void	print_filev(struct file_info **filev, unsigned int option_bitf)
 			print_dir(filev[i], option_bitf);
 		else
 			print_file(filev[i], option_bitf);
+		if (filev[i + 1] && S_ISDIR(filev[i + 1]->mode))
+			ft_printf("\n");
 		i++;
 	}
 }
