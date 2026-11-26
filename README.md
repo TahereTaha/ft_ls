@@ -44,3 +44,7 @@ bugs:
 - [x]	important bug. add a version of printf that prints to the stderr for error mesages.
 - [x]	important bug. ft_ls print a extra new line at the start with `./ft_ls dir1 dir2`
 - [x]	important bug. fix all the failed testcases.
+- [x]	the special permision on the group the s is uppercase not lower.
+- [ ]	inacesible files give only a generic error.
+- [ ]	error for unexistent flags doesn't exit and runs the ls command.
+

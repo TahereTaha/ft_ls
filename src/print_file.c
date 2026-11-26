@@ -54,7 +54,7 @@ static void	print_permisions(mode_t mode)
 	else
 		ft_printf("-");
 	
-	//	owner permisions.
+	//	group permisions.
 	if (mode & S_IRGRP)
 		ft_printf("r");
 	else
@@ -64,13 +64,13 @@ static void	print_permisions(mode_t mode)
 	else
 		ft_printf("-");
 	if (mode & S_ISGID)
-		ft_printf("s");
+		ft_printf("S");
 	else if (mode & S_IXGRP)
 		ft_printf("x");
 	else
 		ft_printf("-");
 	
-	//	owner permisions.
+	//	other permisions.
 	if (mode & S_IROTH)
 		ft_printf("r");
 	else
