@@ -105,7 +105,7 @@ void	parse_args(int ac, char **av, struct ls_args *ctx)
 		ctx->pathv[pathc] = NULL;
 	ctx->pathc = pathc;
 
-	if (ctx->pathc == 1)
+	if (ctx->pathc == 1 && !(ctx->option_bitf & LS_ARGS_OPT_RECURSE))
 	{
 		struct stat	statbuf;
 		int	ret_val;

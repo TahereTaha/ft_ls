@@ -35,8 +35,8 @@ this project consists of a minimal implementation of the ls command, with a redu
 - [x]	separate the print file and print folder.
 - [x]	handle correctly the -r and -t.
 - [x]	add some kind of testing.
-- [ ]	handle correctly the -l.
-- [ ]	handle correctly the -R.
+- [x]	handle correctly the -l.
+- [x]	handle correctly the -R.
 - [ ]	find errors and fix them.
 - [ ]	write a nice documentation.
 

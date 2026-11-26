@@ -207,12 +207,28 @@ static void	print_total_block_size(struct file_info **filev)
 	ft_printf("total %u\n", total);
 }
 
+static void	print_subdir(struct file_info **filev, unsigned int option_bitf)
+{
+	int	i = 0;
+	while (filev[i])
+	{
+		if (S_ISDIR(filev[i]->mode) && 
+			ft_strncmp(".", filev[i]->name, -1) != 0 &&
+			ft_strncmp("..", filev[i]->name, -1) != 0)
+		{
+			ft_printf("\n");
+			print_dir(filev[i], option_bitf);
+		}
+		i++;
+	}
+}
+
 void	print_dir(struct file_info *file, unsigned int option_bitf)
 {
 	if (!(option_bitf & LS_ARGS_ONE_DIR))
-		ft_printf("%s:\n", file->name);
-	char	**names = get_dir_file_names(file->name, option_bitf);
-	char	**paths = add_path(file->name, names);
+		ft_printf("%s:\n", file->path);
+	char	**names = get_dir_file_names(file->path, option_bitf);
+	char	**paths = add_path(file->path, names);
 
 	struct file_info	*file_buff;
 	struct file_info	**filev;
@@ -240,6 +256,8 @@ void	print_dir(struct file_info *file, unsigned int option_bitf)
 	}
 	
 	print_filev(filev, option_bitf);
+	if (option_bitf & LS_ARGS_OPT_RECURSE)
+		print_subdir(filev, option_bitf);
 
 	free_arr((void **)names, free);
 	free_arr((void **)paths, free);
