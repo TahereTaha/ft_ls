@@ -65,8 +65,8 @@ test_ls 11	src -r
 test_ls 12	src inc submodules
 test_ls 13	-l
 test_ls 14	-l /bin
-test_ls 14	/bin
-test_ls 14	-l /bin/
-test_ls 15	src inc -l submodules
-test_ls 16	src -rR
+test_ls 15	/bin
+test_ls 16	-l /bin/
+test_ls 17	src inc -l submodules
+test_ls 18	src -rR
 

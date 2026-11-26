@@ -79,7 +79,8 @@ static void
 fill_file_buff(struct file_info *file_buff, \
 		struct file_info **filev, \
 		char **files, \
-		char **paths)
+		char **paths, \
+		unsigned int option_bitf)
 {
 	struct stat	statbuf;
 
@@ -89,7 +90,14 @@ fill_file_buff(struct file_info *file_buff, \
 	{
 		filev[y] = &file_buff[y];
 		file_buff[y].name = files[i];
-		if (stat(paths[i], &statbuf) == -1)
+		file_buff[y].path = paths[i];
+		int ret_val;
+		(void)option_bitf;
+//		if (option_bitf & LS_ARGS_OPT_FMT_LONG)
+			ret_val = lstat(paths[i], &statbuf);
+//		else
+//			ret_val = stat(paths[i], &statbuf);
+		if (ret_val == -1)
 		{
 			if (errno == ENOENT)
 				ft_printfe("ls: cannot access '%s': "
@@ -105,6 +113,7 @@ fill_file_buff(struct file_info *file_buff, \
 			file_buff[y].gid = statbuf.st_gid;
 			file_buff[y].size = statbuf.st_size;
 			file_buff[y].last_mod = statbuf.st_mtim;
+			file_buff[y].blocks = statbuf.st_blocks;
 			y++;
 		}
 		i++;
@@ -183,6 +192,21 @@ static void	sort_filev(struct file_info **filev, unsigned int option_bitf)
 	}
 }
 
+static void	print_total_block_size(struct file_info **filev)
+{
+	size_t	total = 0;
+	int	i = 0;
+	while (filev[i])
+	{
+		total += filev[i]->blocks;
+		i++;
+	}
+	//	I feel wrong about this because the standard says to use 512 blocks 
+	//	but the coreutils uses 1k
+	total = total >> 1;
+	ft_printf("total %u\n", total);
+}
+
 void	print_dir(struct file_info *file, unsigned int option_bitf)
 {
 	if (!(option_bitf & LS_ARGS_ONE_DIR))
@@ -206,12 +230,15 @@ void	print_dir(struct file_info *file, unsigned int option_bitf)
 		exit(1);
 	}
 
-	fill_file_buff(file_buff, filev, names, paths);
+	fill_file_buff(file_buff, filev, names, paths, option_bitf);
 	sort_filev(filev, option_bitf);
 	
 	if (option_bitf & LS_ARGS_OPT_FMT_LONG)
+	{
 		calc_slot_size(filev);
-
+		print_total_block_size(filev);
+	}
+	
 	print_filev(filev, option_bitf);
 
 	free_arr((void **)names, free);

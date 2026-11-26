@@ -48,7 +48,9 @@ struct	file_info {
 	off_t		size;
 	size_t		size_num_size;
 	struct timespec	last_mod;
+	blkcnt_t	blocks;
 	char		*name;
+	char		*path;
 };
 
 void	calc_slot_size(struct file_info **filev);

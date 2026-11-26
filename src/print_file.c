@@ -10,6 +10,8 @@
 #include <dirent.h>
 #include <pwd.h>
 #include <grp.h>
+#include <time.h>
+#include <linux/limits.h>
 
 #include "libft_ext.h"
 #include "utils.h"
@@ -45,10 +47,10 @@ static void	print_permisions(mode_t mode)
 		ft_printf("w");
 	else
 		ft_printf("-");
-	if (mode & S_IXUSR)
+	if (mode & S_ISUID)
+		ft_printf("s");
+	else if (mode & S_IXUSR)
 		ft_printf("x");
-	else if (mode & S_ISUID)
-		ft_printf("S");
 	else
 		ft_printf("-");
 	
@@ -61,10 +63,10 @@ static void	print_permisions(mode_t mode)
 		ft_printf("w");
 	else
 		ft_printf("-");
-	if (mode & S_IXGRP)
+	if (mode & S_ISGID)
+		ft_printf("s");
+	else if (mode & S_IXGRP)
 		ft_printf("x");
-	else if (mode & S_ISGID)
-		ft_printf("S");
 	else
 		ft_printf("-");
 	
@@ -77,10 +79,10 @@ static void	print_permisions(mode_t mode)
 		ft_printf("w");
 	else
 		ft_printf("-");
-	if (mode & S_IXOTH)
-		ft_printf("x ");
-	else if (mode & S_ISVTX)
+	if (mode & S_ISVTX)
 		ft_printf("T ");
+	else if (mode & S_IXOTH)
+		ft_printf("x ");
 	else
 		ft_printf("- ");
 }
@@ -133,6 +135,36 @@ static void	print_group(gid_t gid, size_t slot_size)
 	free(fmt_str);
 }
 
+static void	print_date(struct timespec date)
+{
+	char	*date_str = ctime(&date.tv_sec);
+	//	file format : "Wed Jun 30 21:49:08 1993\n"
+	//	                   ^4              ^20
+	time_t	age = time(NULL) - date.tv_sec;
+	if (age < 3600L * 24 * 365 / 2)
+	{
+		ft_printf("%.12s ", date_str + 4);
+	}
+	else
+	{
+		*ft_strchr(date_str + 20, '\n') = ' ';
+		ft_printf("%.7s%6s", date_str + 4, date_str + 20);
+	}
+}
+
+static void	print_link(char *path)
+{
+	static char	link[PATH_MAX + 1];
+	ssize_t	ret_val = readlink(path, link, PATH_MAX);
+	if (ret_val == -1)
+	{
+		ft_printfe("ls: %s\n", strerror(errno));
+		exit(1);
+	}
+	link[ret_val] = '\0';
+	ft_printf(" -> %s", link);
+}
+
 void	print_file(struct file_info *file, unsigned int options_bitf)
 {
 	if (options_bitf & LS_ARGS_OPT_FMT_LONG)
@@ -142,6 +174,10 @@ void	print_file(struct file_info *file, unsigned int options_bitf)
 		print_user(file->uid, file->user_name_size);
 		print_group(file->gid, file->group_name_size);
 		print_num(file->size, file->size_num_size);
+		print_date(file->last_mod);
 	}
-	ft_printf("%s\n", file->name);
+	ft_printf("%s", file->name);
+	if (options_bitf & LS_ARGS_OPT_FMT_LONG && S_ISLNK(file->mode))
+		print_link(file->path);
+	ft_printf("\n");
 }

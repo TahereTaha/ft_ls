@@ -10,7 +10,10 @@
 #include "libft_ext.h"
 
 static void	
-fill_file_buff(struct file_info *file_buff, struct file_info **filev, struct ls_args *ctx)
+fill_file_buff(struct file_info *file_buff, \
+		struct file_info **filev, \
+		struct ls_args *ctx, \
+		unsigned int option_bitf)
 {
 	struct stat	statbuf;
 
@@ -20,7 +23,13 @@ fill_file_buff(struct file_info *file_buff, struct file_info **filev, struct ls_
 	{
 		filev[y] = &file_buff[y];
 		file_buff[y].name = ctx->pathv[i];
-		if (stat(file_buff[y].name, &statbuf) == -1)
+		file_buff[y].path = ctx->pathv[i];
+		int ret_val;
+		if (option_bitf & LS_ARGS_OPT_FMT_LONG)
+			ret_val = lstat(ctx->pathv[i], &statbuf);
+		else
+			ret_val = stat(ctx->pathv[i], &statbuf);
+		if (ret_val == -1)
 		{
 			if (errno == ENOENT)
 				ft_printfe("ls: cannot access '%s': "
@@ -36,6 +45,7 @@ fill_file_buff(struct file_info *file_buff, struct file_info **filev, struct ls_
 			file_buff[y].gid = statbuf.st_gid;
 			file_buff[y].size = statbuf.st_size;
 			file_buff[y].last_mod = statbuf.st_mtim;
+			file_buff[y].blocks = statbuf.st_blocks;
 			y++;
 		}
 		i++;
@@ -138,7 +148,7 @@ void	print_pathv(struct ls_args *ctx)
 		exit(1);
 	}
 	
-	fill_file_buff(file_buff, filev, ctx);
+	fill_file_buff(file_buff, filev, ctx, ctx->option_bitf);
 	
 	sort_filev(ctx->pathc, filev, ctx->option_bitf);
 

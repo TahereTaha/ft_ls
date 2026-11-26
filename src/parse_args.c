@@ -108,7 +108,13 @@ void	parse_args(int ac, char **av, struct ls_args *ctx)
 	if (ctx->pathc == 1)
 	{
 		struct stat	statbuf;
-		if (stat(ctx->pathv[0], &statbuf))
+		int	ret_val;
+		if (ctx->option_bitf & LS_ARGS_OPT_FMT_LONG)
+			ret_val = lstat(ctx->pathv[0], &statbuf);
+		else
+			ret_val = stat(ctx->pathv[0], &statbuf);
+
+		if (ret_val == -1)
 		{
 			ft_printfe("ls: cannot access '%s': "
 				"No such file or directory\n", ctx->pathv[0]);
