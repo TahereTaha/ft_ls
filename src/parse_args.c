@@ -28,7 +28,8 @@ static void	parse_arg_options(char *options, struct ls_args *ctx)
 		else
 		{
 			ft_printf("ls: invalid option -- '%c'\n", options[i]);
-			ft_printf("Try 'ls --help' for more information.");
+			ft_printf("Try 'ls --help' for more information.\n");
+			exit(2);
 		}
 		i++;
 	}

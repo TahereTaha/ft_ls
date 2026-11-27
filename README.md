@@ -46,6 +46,6 @@ bugs:
 - [x]	important bug. fix all the failed testcases.
 - [x]	the special permision on the group the s is uppercase not lower.
 - [x]	inacesible files give only a generic error.
-- [ ]	error for unexistent flags doesn't exit and runs the ls command.
+- [x]	error for unexistent flags doesn't exit and runs the ls command.
 - [ ]	return correct error status after errors.
 
