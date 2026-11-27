@@ -99,20 +99,20 @@ static char	*get_fmt_str(size_t slot_size, char *type, char *ord)
 	if (!size_str)
 	{
 		ft_printfe("ls: %s\n", strerror(errno));
-		exit(1);
+		exit(2);
 	}
 	char	*tmp = ft_strjoin(ord, size_str);
 	if (!tmp)
 	{
 		ft_printfe("ls: %s\n", strerror(errno));
-		exit(1);
+		exit(2);
 	}
 	free(size_str);
 	char	*fmt_str = ft_strjoin(tmp, type);
 	if (!fmt_str)
 	{
 		ft_printfe("ls: %s\n", strerror(errno));
-		exit(1);
+		exit(2);
 	}
 	free(tmp);
 	return (fmt_str);
@@ -165,13 +165,13 @@ static void	print_link(char *path)
 	if (ret_val == -1)
 	{
 		ft_printfe("ls: %s\n", strerror(errno));
-		exit(1);
+		exit(2);
 	}
 	link[ret_val] = '\0';
 	ft_printf(" -> %s", link);
 }
 
-void	print_file(struct file_info *file, unsigned int options_bitf)
+int	print_file(struct file_info *file, unsigned int options_bitf)
 {
 	if (options_bitf & LS_ARGS_OPT_FMT_LONG)
 	{
@@ -186,4 +186,5 @@ void	print_file(struct file_info *file, unsigned int options_bitf)
 	if (options_bitf & LS_ARGS_OPT_FMT_LONG && S_ISLNK(file->mode))
 		print_link(file->path);
 	ft_printf("\n");
+	return (0);
 }

@@ -47,7 +47,7 @@ static char	**get_dir_file_names(char *path, unsigned int options_bitf)
 		else
 		{
 			ft_printfe("ls: %s\n", strerror(errno));
-			exit(1);
+			exit(2);
 		}
 	}
 	t_list	*name_list = NULL;
@@ -61,13 +61,13 @@ static char	**get_dir_file_names(char *path, unsigned int options_bitf)
 			if (!name_cpy)
 			{
 				ft_printfe("ls: %s\n", strerror(errno));
-				exit(1);
+				exit(2);
 			}
 			t_list	*node= ft_lstnew(name_cpy);
 			if (!node)
 			{
 				ft_printfe("ls: %s\n", strerror(errno));
-				exit(1);
+				exit(2);
 			}
 			ft_lstadd_front(&name_list, node);
 		}
@@ -78,13 +78,13 @@ static char	**get_dir_file_names(char *path, unsigned int options_bitf)
 	if (!ret)
 	{
 		ft_printfe("ls: %s\n", strerror(errno));
-		exit(1);
+		exit(2);
 	}
 	return (ret);
 }
 
 
-static void	
+static int	
 fill_file_buff(struct file_info *file_buff, \
 		struct file_info **filev, \
 		char **files, \
@@ -93,6 +93,7 @@ fill_file_buff(struct file_info *file_buff, \
 {
 	struct stat	statbuf;
 
+	int	err = 0;
 	int	i = 0;
 	int	y = 0;
 	while (files[i])
@@ -116,6 +117,7 @@ fill_file_buff(struct file_info *file_buff, \
 					"Permission denied\n", file_buff[y].name);
 			else
 				ft_printfe("ls: %s\n", strerror(errno));
+			err = 1;
 		}
 		else
 		{
@@ -131,6 +133,7 @@ fill_file_buff(struct file_info *file_buff, \
 		i++;
 	}
 	filev[y] = NULL;
+	return (err);
 }
 
 
@@ -153,7 +156,7 @@ static char	**add_path(char *path, char **files)
 		if (!new_path)
 		{
 			ft_printfe("ls: %s\n", strerror(errno));
-			exit(1);
+			exit(2);
 		}
 	}
 	else
@@ -162,7 +165,7 @@ static char	**add_path(char *path, char **files)
 	if (!new_pathv)
 	{
 		ft_printfe("ls: %s\n", strerror(errno));
-		exit(1);
+		exit(2);
 	}
 	new_pathv[arr_len((void **)files)] = NULL;
 	int	i = 0;
@@ -172,7 +175,7 @@ static char	**add_path(char *path, char **files)
 		if (!new_pathv[i])
 		{
 			ft_printfe("ls: %s\n", strerror(errno));
-			exit(1);
+			exit(2);
 		}
 		i++;
 	}
@@ -235,12 +238,12 @@ static void	print_subdir(struct file_info **filev, unsigned int option_bitf)
 	}
 }
 
-void	print_dir(struct file_info *file, unsigned int option_bitf)
+int	print_dir(struct file_info *file, unsigned int option_bitf)
 {
 	char	**names = get_dir_file_names(file->path, option_bitf);
 	if (!names)
 	{
-		return ;
+		return (1);
 	}
 	char	**paths = add_path(file->path, names);
 	
@@ -254,16 +257,16 @@ void	print_dir(struct file_info *file, unsigned int option_bitf)
 	if (!file_buff)
 	{
 		ft_printfe("ls: %s\n", strerror(errno));
-		exit(1);
+		exit(2);
 	}
 	filev = malloc(sizeof(struct file_info *) * (arr_len((void **)names) + 1));
 	if (!file_buff)
 	{
 		ft_printfe("ls: %s\n", strerror(errno));
-		exit(1);
+		exit(2);
 	}
 
-	fill_file_buff(file_buff, filev, names, paths, option_bitf);
+	int err = fill_file_buff(file_buff, filev, names, paths, option_bitf);
 	sort_filev(filev, option_bitf);
 	
 	if (option_bitf & LS_ARGS_OPT_FMT_LONG)
@@ -280,5 +283,6 @@ void	print_dir(struct file_info *file, unsigned int option_bitf)
 	free_arr((void **)paths, free);
 	free(file_buff);
 	free(filev);
+	return (err);
 }
 

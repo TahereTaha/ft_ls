@@ -119,7 +119,7 @@ void	parse_args(int ac, char **av, struct ls_args *ctx)
 		{
 			ft_printfe("ls: cannot access '%s': "
 				"No such file or directory\n", ctx->pathv[0]);
-			exit(1);
+			exit(2);
 		}
 		if (S_ISDIR(statbuf.st_mode))
 			ctx->option_bitf |= LS_ARGS_ONE_DIR;

@@ -37,7 +37,7 @@ this project consists of a minimal implementation of the ls command, with a redu
 - [x]	add some kind of testing.
 - [x]	handle correctly the -l.
 - [x]	handle correctly the -R.
-- [ ]	find errors and fix them.
+- [x]	find errors and fix them.
 - [ ]	write a nice documentation.
 
 bugs:
@@ -47,5 +47,5 @@ bugs:
 - [x]	the special permision on the group the s is uppercase not lower.
 - [x]	inacesible files give only a generic error.
 - [x]	error for unexistent flags doesn't exit and runs the ls command.
-- [ ]	return correct error status after errors.
+- [x]	return correct error status after errors.
 

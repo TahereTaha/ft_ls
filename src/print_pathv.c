@@ -9,12 +9,13 @@
 
 #include "libft_ext.h"
 
-static void	
+static int	
 fill_file_buff(struct file_info *file_buff, \
 		struct file_info **filev, \
 		struct ls_args *ctx, \
 		unsigned int option_bitf)
 {
+	int	err = 0;
 	struct stat	statbuf;
 
 	int	i = 0;
@@ -39,6 +40,7 @@ fill_file_buff(struct file_info *file_buff, \
 					"Permission denied\n", file_buff[y].name);
 			else
 				ft_printfe("ls: %s\n", strerror(errno));
+			err = 1;
 		}
 		else
 		{
@@ -55,6 +57,7 @@ fill_file_buff(struct file_info *file_buff, \
 	}
 	filev[y] = NULL;
 	ctx->pathc = y;
+	return (err);
 }
 
 //	return 0 the first is smaller or equal.
@@ -117,22 +120,24 @@ static void	debug_print_filev(struct file_info **filev)
 	}
 }
 
-static void	print_filev(struct file_info **filev, unsigned int option_bitf)
+static int	print_filev(struct file_info **filev, unsigned int option_bitf)
 {
+	int	err = 0;
 	int	i = 0;
 	while (filev[i])
 	{
 		if (S_ISDIR(filev[i]->mode))
-			print_dir(filev[i], option_bitf);
+			err |= print_dir(filev[i], option_bitf);
 		else
-			print_file(filev[i], option_bitf);
+			err |= print_file(filev[i], option_bitf);
 		if (filev[i + 1] && S_ISDIR(filev[i + 1]->mode))
 			ft_printf("\n");
 		i++;
 	}
+	return (err);
 }
 
-void	print_pathv(struct ls_args *ctx)
+int	print_pathv(struct ls_args *ctx)
 {
 	//	setting up the filev.
 	struct file_info	*file_buff;
@@ -142,16 +147,16 @@ void	print_pathv(struct ls_args *ctx)
 	if (!file_buff)
 	{
 		ft_printfe("ls: %s\n", strerror(errno));
-		exit(1);
+		exit(2);
 	}
 	filev = malloc(sizeof(struct file_info *) * (ctx->pathc + 1));
 	if (!file_buff)
 	{
 		ft_printfe("ls: %s\n", strerror(errno));
-		exit(1);
+		exit(2);
 	}
 	
-	fill_file_buff(file_buff, filev, ctx, ctx->option_bitf);
+	int	err = fill_file_buff(file_buff, filev, ctx, ctx->option_bitf);
 	
 	sort_filev(ctx->pathc, filev, ctx->option_bitf);
 
@@ -159,7 +164,8 @@ void	print_pathv(struct ls_args *ctx)
 		calc_slot_size(filev);
 	
 	debug_print_filev(filev);
-	print_filev(filev, ctx->option_bitf);
+	err |= print_filev(filev, ctx->option_bitf);
 	free(file_buff);
 	free(filev);
+	return (err);
 }

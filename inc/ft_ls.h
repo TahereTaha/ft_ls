@@ -35,7 +35,7 @@ struct ls_args {
 //	in case of error this doesn't return and prints the error msg and exits.
 void	parse_args(int ac, char **av, struct ls_args *ctx);
 
-void	print_pathv(struct ls_args *ctx);
+int	print_pathv(struct ls_args *ctx);
 
 struct	file_info {
 	mode_t		mode;
@@ -55,9 +55,9 @@ struct	file_info {
 
 void	calc_slot_size(struct file_info **filev);
 
-void	print_file(struct file_info *file, unsigned int options);
+int	print_file(struct file_info *file, unsigned int options);
 
-void	print_dir(struct file_info *file, unsigned int options);
+int	print_dir(struct file_info *file, unsigned int options);
 
 //
 //	utils. to be moved to the libft eventualy.
