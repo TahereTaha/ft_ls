@@ -15,9 +15,10 @@ function run_diff ()
 
 	shift
 
-	ls $@ | cat \
-		1> test_diff/ls_stdout_test"$test_id".test.out \
-		2> test_diff/ls_stderr_test"$test_id".test.out;
+	ls $@ \
+		2> test_diff/ls_stderr_test"$test_id".test.out \
+		| cat \
+		1> test_diff/ls_stdout_test"$test_id".test.out;
 
 	./ft_ls $@ \
 		1> test_diff/ft_ls_stdout_test"$test_id".test.out \
@@ -72,5 +73,6 @@ test_ls 18	src -rR
 test_ls 19	-la
 test_ls 20	src -laRRR
 test_ls 21	-t
+test_ls 22	/sgoinfre/students/abenich
 
 

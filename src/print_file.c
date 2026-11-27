@@ -47,8 +47,10 @@ static void	print_permisions(mode_t mode)
 		ft_printf("w");
 	else
 		ft_printf("-");
-	if (mode & S_ISUID)
+	if (mode & S_ISUID && mode & S_IXUSR)
 		ft_printf("s");
+	else if (mode & S_ISUID)
+		ft_printf("S");
 	else if (mode & S_IXUSR)
 		ft_printf("x");
 	else
@@ -63,7 +65,9 @@ static void	print_permisions(mode_t mode)
 		ft_printf("w");
 	else
 		ft_printf("-");
-	if (mode & S_ISGID)
+	if (mode & S_ISGID && mode & S_IXGRP)
+		ft_printf("s");
+	else if (mode & S_ISGID)
 		ft_printf("S");
 	else if (mode & S_IXGRP)
 		ft_printf("x");
@@ -79,7 +83,9 @@ static void	print_permisions(mode_t mode)
 		ft_printf("w");
 	else
 		ft_printf("-");
-	if (mode & S_ISVTX)
+	if (mode & S_ISVTX && mode & S_IXOTH)
+		ft_printf("t ");
+	else if (mode & S_ISVTX)
 		ft_printf("T ");
 	else if (mode & S_IXOTH)
 		ft_printf("x ");

@@ -34,6 +34,9 @@ fill_file_buff(struct file_info *file_buff, \
 			if (errno == ENOENT)
 				ft_printfe("ls: cannot access '%s': "
 					"No such file or directory\n", file_buff[y].name);
+			if (errno == EACCES)
+				ft_printfe("ls: cannot open directory '%s': "
+					"Permission denied\n", file_buff[y].name);
 			else
 				ft_printfe("ls: %s\n", strerror(errno));
 		}

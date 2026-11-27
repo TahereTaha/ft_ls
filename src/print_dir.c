@@ -38,8 +38,17 @@ static char	**get_dir_file_names(char *path, unsigned int options_bitf)
 	DIR	*dir = opendir(path);
 	if (!dir)
 	{
-		ft_printfe("ls: %s\n", strerror(errno));
-		exit(1);
+		if (errno == EACCES)
+		{
+			ft_printfe("ls: cannot open directory '%s': "
+				"Permission denied\n", path);
+			return (NULL);
+		}
+		else
+		{
+			ft_printfe("ls: %s\n", strerror(errno));
+			exit(1);
+		}
 	}
 	t_list	*name_list = NULL;
 
@@ -102,6 +111,9 @@ fill_file_buff(struct file_info *file_buff, \
 			if (errno == ENOENT)
 				ft_printfe("ls: cannot access '%s': "
 					"No such file or directory\n", file_buff[y].name);
+			if (errno == EACCES)
+				ft_printfe("ls: cannot open directory '%s': "
+					"Permission denied\n", file_buff[y].name);
 			else
 				ft_printfe("ls: %s\n", strerror(errno));
 		}
@@ -225,10 +237,15 @@ static void	print_subdir(struct file_info **filev, unsigned int option_bitf)
 
 void	print_dir(struct file_info *file, unsigned int option_bitf)
 {
+	char	**names = get_dir_file_names(file->path, option_bitf);
+	if (!names)
+	{
+		return ;
+	}
+	char	**paths = add_path(file->path, names);
+	
 	if (!(option_bitf & LS_ARGS_ONE_DIR))
 		ft_printf("%s:\n", file->path);
-	char	**names = get_dir_file_names(file->path, option_bitf);
-	char	**paths = add_path(file->path, names);
 
 	struct file_info	*file_buff;
 	struct file_info	**filev;
